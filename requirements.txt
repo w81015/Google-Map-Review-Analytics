@@ -1,0 +1,7 @@
+streamlit
+pandas
+plotly  # Includes both plotly.express and plotly.graph_objects
+selenium
+jieba
+snownlp
+
