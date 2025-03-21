@@ -9,7 +9,7 @@ import pandas as pd
 def setup_chrome():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--window-size=1920,1080")
-    #chrome_options.add_argument("--headless")  # Enable headless mode
+    chrome_options.add_argument("--headless")  # Enable headless mode
     chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration for headless mode
     driver = webdriver.Chrome(options=chrome_options)
     return driver
