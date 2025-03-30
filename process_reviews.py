@@ -85,7 +85,7 @@ def main_process(location, number):
     stopwords = load_user_resources()
 
     # 呼叫爬蟲程式
-    reviews_data, search_name, desired_reviews = main(location, number)
+    df_reviews, reviews_data, search_name, desired_reviews = main(location, number)
     df = pd.DataFrame(reviews_data)
     df['index'] = range(1, len(df)+1)
 
@@ -107,7 +107,7 @@ def main_process(location, number):
     # 在DataFrame中應用情感分析，添加情感標籤（正面/負面）
     expanded_df['sentiment_score'] = expanded_df['sentence'].apply(sentiment_analysis)
     expanded_df['sentiment'] = expanded_df['sentiment_score'].apply(lambda x: '正面' if x > 0.5 else '負面')
-    return expanded_df
+    return df_reviews, expanded_df
 
 
 if __name__ == "__main__":

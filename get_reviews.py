@@ -5,13 +5,20 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pandas as pd
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 def setup_chrome():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument("--headless")  # Enable headless mode
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration for headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    
+    # Use webdriver-manager to handle ChromeDriver compatibility
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
 def search_and_get_reviews(search_name):
@@ -208,10 +215,10 @@ def main(location, number):
         print(df_reviews['Review Rating'].value_counts().sort_index())
         
         # 返回 df_reviews 和其他變數
-        return reviews_data, search_name, desired_reviews
+        return df_reviews, reviews_data, search_name, desired_reviews
     else:
         print("沒有收集到評論")
         return None, search_name, desired_reviews
 
 if __name__ == "__main__":
-    reviews_data, search_name, desired_reviews = main()
+    df_reviews, reviews_data, search_name, desired_reviews = main()
