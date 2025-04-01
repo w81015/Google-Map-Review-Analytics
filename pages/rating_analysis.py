@@ -103,6 +103,6 @@ def show_rating_analysis():
         st.warning("⚠️ 尚未取得評論資料，請先前往「評論輸入」頁面進行分析。")
         
         # 加入一個按鈕，讓用戶可以直接跳轉到輸入頁面
-        if st.button("前往評論輸入頁面"):
-            st.session_state.current_page = "評論輸入"
-            st.rerun()
+        # if st.button("前往評論輸入頁面"):
+        #     st.session_state.current_page = "評論輸入"
+        #     st.rerun()

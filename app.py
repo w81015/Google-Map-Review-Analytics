@@ -54,27 +54,27 @@ if selected == "首頁":
     
 elif selected == "評論輸入":
     # 導入評論輸入頁面
-    from input_page import show_input_page
+    from pages.input_page import show_input_page
     show_input_page()
     
 elif selected == "評論摘要":
     # 導入評論摘要頁面
-    from summary_page import show_summary_page
+    from pages.summary_page import show_summary_page
     show_summary_page()
     
 elif selected == "評分分析":
     # 導入評分分析頁面
-    from rating_analysis import show_rating_analysis
+    from pages.rating_analysis import show_rating_analysis
     show_rating_analysis()
     
 elif selected == "關鍵詞分析":
     # 導入關鍵詞分析頁面
-    from keyword_analysis import show_keyword_analysis
+    from pages.keyword_analysis import show_keyword_analysis
     show_keyword_analysis()
     
 elif selected == "主題分析":
     # 導入主題分析頁面
-    from topic_analysis import show_topic_analysis
+    from pages.topic_analysis import show_topic_analysis
     show_topic_analysis()
 
 # 頁腳
