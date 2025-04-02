@@ -1,5 +1,5 @@
 import streamlit as st
-from state_management import check_data_availability
+from utils.state_management import check_data_availability
 
 def display_summary(df_reviews):
     """
@@ -25,15 +25,15 @@ def display_summary(df_reviews):
     comparison = "較高" if avg_rating > overall_rating else "較低" if avg_rating < overall_rating else "相當"
 
     interpretation = {
-        "較高": "顯示近期評價可能趨向正面，店家服務或品質可能有所提升。",
-        "較低": "顯示近期評價可能趨向負面，店家服務或品質可能有所下降。",
-        "相當": "顯示近期評價與過去評價相當，店家評價穩定。"
+        "較高": "代表近期評價趨向正面，店家服務或品質可能提升。",
+        "較低": "代表近期評價趨向負面，店家服務或品質可能下降。",
+        "相當": "代表近期評價與過去評價相當，店家評價穩定。"
     }[comparison]
 
     st.markdown("#### 📊 留言分析")
     st.write(
         f"在已抓取的 **{len(df_reviews)}** 條留言中，平均得分為 **{avg_rating}**，"
-        f"比 Google Map 上的整體評分 **{overall_rating}** {comparison}。"
+        f"和 Google Map 上的整體評分(**{overall_rating}**)相比{comparison}。"
     )
     st.success(interpretation)
 
@@ -48,7 +48,7 @@ def display_summary(df_reviews):
     if checkwords_count >= 3:
         st.warning("📌 留言中多次出現「打卡」或「送」等詞彙，店家可能提供優惠以提升評分。")
     else:
-        st.info("📌 留言中沒有明顯的打卡活動痕跡。")
+        st.info("📌 留言中「沒有」明顯的打卡活動。")
 
 
 def show_summary_page():
@@ -68,6 +68,6 @@ def show_summary_page():
         st.warning("⚠️ 尚未取得評論資料，請先前往「評論輸入」頁面進行分析。")
         
         # 加入一個按鈕，讓用戶可以直接跳轉到輸入頁面
-        if st.button("前往評論輸入頁面"):
-            st.session_state.current_page = "評論輸入"
-            st.rerun()
+        # if st.button("前往評論輸入頁面"):
+        #     st.session_state.current_page = "評論輸入"
+        #     st.rerun()

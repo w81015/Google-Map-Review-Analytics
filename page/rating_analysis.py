@@ -1,7 +1,7 @@
 import streamlit as st
-import plotly.graph_objects as go
+import plotly.express as px
 import pandas as pd
-from state_management import check_data_availability
+from utils.state_management import check_data_availability
 
 def plot_rating_distribution(df_reviews):
     """
@@ -11,35 +11,42 @@ def plot_rating_distribution(df_reviews):
     st.write(f"（此為抓取的 {len(df_reviews)} 則留言評分，而非 Google Map 上所有留言評分）")
 
     star_counts = df_reviews["Review Rating"].value_counts().sort_index()
-    all_ratings = range(1, 6)
-    complete_star_counts = pd.Series(
-        [star_counts.get(rating, 0) for rating in all_ratings],
-        index=all_ratings
-    )
 
-    fig = go.Figure(
-        data=[
-            go.Bar(
-                x=complete_star_counts.index,
-                y=complete_star_counts.values,
-                marker=dict(color="skyblue")
-            )
-        ]
-    )
+    # 轉換為 DataFrame，並設定欄位名稱
+    df_star_counts = pd.DataFrame({
+        "評分": star_counts.index, 
+        "留言數量": star_counts.values
+    })
 
+    fig = px.bar(
+        df_star_counts,
+        x="評分",
+        y="留言數量",
+        text="留言數量",
+        title="評分分佈",
+        color="留言數量",
+        color_continuous_scale="Burg"
+    )
+    fig.update_traces(textposition="outside")
     fig.update_layout(
-        xaxis_title="評分",
-        yaxis_title="留言數量",
         plot_bgcolor="white",
         font=dict(size=14),
         width=600,
-        height=400,
+        height=450,
         margin=dict(t=40, b=50, l=50, r=30),
         showlegend=False,
-        xaxis=dict(tickmode='array', tickvals=list(all_ratings))
+        dragmode=False
     )
-
-    st.plotly_chart(fig, use_container_width=False, config={"scrollZoom": False, "displayModeBar": False})
+    # 固定 x 軸的範圍為 1-5，並確保顯示整數刻度
+    fig.update_xaxes(
+        range=[0.5, 5.5],  # 範圍設為 0.5-5.5，這樣顯示區間就是從 1 到 5
+        tickmode='array',  # 使用陣列模式設定刻度
+        tickvals=[1, 2, 3, 4, 5],  # 刻度值
+        ticktext=['1', '2', '3', '4', '5']  # 刻度標籤
+    )
+    st.plotly_chart(fig, use_container_width=False, 
+                    config={"scrollZoom": False, "displayModeBar": False,
+                            "doubleClick": False, "showTips": False})
     return star_counts
 
 
@@ -103,6 +110,6 @@ def show_rating_analysis():
         st.warning("⚠️ 尚未取得評論資料，請先前往「評論輸入」頁面進行分析。")
         
         # 加入一個按鈕，讓用戶可以直接跳轉到輸入頁面
-        if st.button("前往評論輸入頁面"):
-            st.session_state.current_page = "評論輸入"
-            st.rerun()
+        # if st.button("前往評論輸入頁面"):
+        #     st.session_state.current_page = "評論輸入"
+        #     st.rerun()

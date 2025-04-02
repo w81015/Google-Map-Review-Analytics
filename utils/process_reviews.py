@@ -3,7 +3,7 @@ import jieba.analyse
 import re
 import pandas as pd
 from snownlp import SnowNLP
-from get_reviews import main
+from utils.get_reviews import main
 
 # 加載使用者自定義資源，包括字典和停用詞
 def load_user_resources():
