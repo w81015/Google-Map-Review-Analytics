@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import random
 from collections import Counter
-from state_management import check_data_availability
+from utils.state_management import check_data_availability
 
 def plot_top_keywords(df):
     """
@@ -31,11 +31,14 @@ def plot_top_keywords(df):
             plot_bgcolor="white",
             font=dict(size=14),
             width=600,
-            height=400,
+            height=450,
             margin=dict(t=40, b=50, l=50, r=30),
-            showlegend=False
+            showlegend=False,
+            dragmode=False
         )
-        st.plotly_chart(fig, use_container_width=False, config={"scrollZoom": False, "displayModeBar": False})
+        st.plotly_chart(fig, use_container_width=False, 
+                        config={"scrollZoom": False, "displayModeBar": False,
+                                "doubleClick": False, "showTips": False})
         return df_top_words
 
     return None
@@ -43,13 +46,13 @@ def plot_top_keywords(df):
 
 def display_sentences_with_top_words(df, df_top_words):
     """
-    顯示包含前三大熱門關鍵詞的句子。
+    顯示包含前幾大熱門關鍵詞的句子。
     """
     if df_top_words is None or df_top_words.empty:
         st.warning("沒有熱門關鍵詞可供篩選句子。")
         return
 
-    top_words = df_top_words["熱門關鍵詞"].head(3).tolist()  # 取前三個熱門詞
+    top_words = df_top_words["熱門關鍵詞"].head(5).tolist()  # 取前5個熱門詞
     selected_sentences = {}
 
     for word in top_words:
@@ -60,8 +63,8 @@ def display_sentences_with_top_words(df, df_top_words):
                 min(3, len(matched_sentences))
             )
 
-    st.markdown("###### 前3大熱門關鍵詞的討論內容：")
-    st.write("未顯示代表留言數太少無法分析。")
+    st.markdown("###### 熱門關鍵詞的討論內容：")
+    st.write("(未顯示代表留言數太少無法分析)")
 
     for word, sentences in selected_sentences.items():
         with st.container():

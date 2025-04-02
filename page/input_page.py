@@ -1,5 +1,5 @@
 import streamlit as st
-from process_reviews import main_process
+from utils.process_reviews import main_process
 
 def show_input_page():
     """
@@ -42,19 +42,19 @@ def show_input_page():
                 if df is None or df.empty:
                     st.error("❌ 無法獲取資料，請確認輸入店家名稱是否正確。")
                 else:
-                    st.success("✅ 分析完成！請點擊上方的「評論摘要」查看結果。")
+                    st.success("✅ 分析完成！")
 
                     # 將抓取到的結果儲存到 session_state
                     st.session_state.df_reviews = df_reviews
                     st.session_state.df = df
                     
                     # 顯示導引
-                    st.info("📊 您現在可以點擊上方選單查看不同分析結果：")
+                    st.info("📊 請點擊上方選單查看不同分析結果：")
                     st.markdown("""
                     - **評論摘要**：整體評分和近期評價趨勢
-                    - **評分分析**：評分分布和各星級評論範例
+                    - **評分分析**：評分分布和各星級評論
                     - **關鍵詞分析**：熱門關鍵詞和相關評論
-                    - **主題分析**：評論主題分布和情感分析
+                    - **主題分析**：評論主題分布和討論內容
                     """)
         else:
             if not location:

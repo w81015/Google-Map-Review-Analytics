@@ -41,45 +41,45 @@ st.session_state.current_page = selected
 # 頁面導航
 if selected == "首頁":
     st.write("## 歡迎使用 Google Map 餐廳評論分析系統")
-    st.write("""
+    st.markdown("""
     本系統可以幫助您分析 Google Map 上餐廳的評論，提供以下功能：
     
-    - 評論摘要：整體評分和近期評價趨勢
-    - 評分分析：評分分布和各星級評論範例
-    - 關鍵詞分析：熱門關鍵詞和相關評論
-    - 主題分析：評論主題分布和情感分析
+    - **評論摘要**：整體評分和近期評價趨勢
+    - **評分分析**：評分分布和各星級評論
+    - **關鍵詞分析**：熱門關鍵詞和相關評論
+    - **主題分析**：評論主題分布和討論內容
     
     請點擊上方的「評論輸入」開始分析！
     """)
     
 elif selected == "評論輸入":
     # 導入評論輸入頁面
-    from pages.input_page import show_input_page
+    from page.input_page import show_input_page
     show_input_page()
     
 elif selected == "評論摘要":
     # 導入評論摘要頁面
-    from pages.summary_page import show_summary_page
+    from page.summary_page import show_summary_page
     show_summary_page()
     
 elif selected == "評分分析":
     # 導入評分分析頁面
-    from pages.rating_analysis import show_rating_analysis
+    from page.rating_analysis import show_rating_analysis
     show_rating_analysis()
     
 elif selected == "關鍵詞分析":
     # 導入關鍵詞分析頁面
-    from pages.keyword_analysis import show_keyword_analysis
+    from page.keyword_analysis import show_keyword_analysis
     show_keyword_analysis()
     
 elif selected == "主題分析":
     # 導入主題分析頁面
-    from pages.topic_analysis import show_topic_analysis
+    from page.topic_analysis import show_topic_analysis
     show_topic_analysis()
 
 # 頁腳
 st.markdown("---")
-st.markdown("### 關於系統")
-st.markdown("Google Map 餐廳評論分析系統 by Jared Lin")
+st.markdown("#### 關於系統")
+st.markdown("**Google Map 餐廳評論分析**  by Jared Lin")
 url = "https://github.com/w81015"
 st.markdown("Github: [link](%s)" % url)

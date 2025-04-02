@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 from collections import Counter
-from state_management import check_data_availability
+from utils.state_management import check_data_availability
 
 def plot_review_topics(df):
     """
@@ -33,12 +33,15 @@ def plot_review_topics(df):
         font=dict(size=14),
         width=600,
         height=400,
-        margin=dict(t=30, b=50, l=50, r=30),
-        showlegend=False
+        margin=dict(t=50, b=50, l=50, r=30),
+        showlegend=False,
+        dragmode=False
     )
 
     st.subheader("評論主題分布")
-    st.plotly_chart(fig, use_container_width=False, config={"scrollZoom": False, "displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=False, 
+                        config={"scrollZoom": False, "displayModeBar": False,
+                                "doubleClick": False, "showTips": False})
 
 
 def display_sentiment_analysis(df):
@@ -50,8 +53,9 @@ def display_sentiment_analysis(df):
     for topic in label_counts.index:
         if topic == "其他":
             continue
-
-        with st.expander(f"「{topic}」的討論", expanded=True):
+        
+        st.markdown(f"#### 📌 **{topic} 的討論**") 
+        with st.expander(" ", expanded=True):
             col1, col2 = st.columns([1, 1.2])
 
             with col1:
@@ -98,7 +102,7 @@ def display_sentiment_analysis(df):
                 if words.strip():
                     # 計算詞頻
                     word_counts = Counter(words.split())
-                    common_words = word_counts.most_common(20)  # 取前 20 個詞
+                    common_words = word_counts.most_common(10)  # 取前 10 個詞
 
                     # 轉換為 DataFrame
                     word_df = pd.DataFrame(common_words, columns=["詞語", "次數"])
@@ -116,9 +120,11 @@ def display_sentiment_analysis(df):
                     )
 
                     fig.update_traces(textposition="outside")
-                    fig.update_layout(yaxis=dict(categoryorder="total ascending"))
+                    fig.update_layout(yaxis=dict(categoryorder="total ascending"), dragmode=False)
 
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, use_container_width=True, 
+                                        config={"scrollZoom": False, "displayModeBar": False,
+                                                "doubleClick": False, "showTips": False})
 
                 else:
                     st.write("目前沒有足夠的詞語來生成詞頻圖。")
