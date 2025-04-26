@@ -2,7 +2,7 @@
 
 # Google Maps Restaurant Review Analysis System
 
-📈 A web application built with Streamlit to help users analyze the sentiment and topics of Google Map restaurant reviews.
+📈 A web application built with Streamlit to help users analyze the topics of Google Map restaurant reviews. You can try it here: [https://map-reviews-analytics.streamlit.app](https://map-reviews-analytics.streamlit.app)
 
 ---
 

@@ -2,7 +2,7 @@
 
 # Google Map 餐廳評論分析系統
 
-📈 以 Streamlit 打造的網頁應用，幫助使用者分析 Google Map 餐廳評論的情緒與主題。
+📈 以 Streamlit 打造的網頁應用，幫助使用者分析 Google Map 餐廳評論的主題。點此進入：[https://map-reviews-analytics.streamlit.app](https://map-reviews-analytics.streamlit.app)
 
 ---
 
