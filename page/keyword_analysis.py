@@ -60,7 +60,7 @@ def display_sentences_with_top_words(df, df_top_words):
         if len(matched_sentences) > 4:
             selected_sentences[word] = random.sample(
                 list(matched_sentences),
-                min(3, len(matched_sentences))
+                min(5, len(matched_sentences))
             )
 
     st.markdown("###### 熱門關鍵詞的討論內容：")
