@@ -2,13 +2,13 @@
 
 # Google Maps Restaurant Review Analysis System
 
-📈 A web application built with Streamlit to help users analyze restaurant reviews on Google Maps through sentiment and topic classification.
+📈 A web application built with Streamlit to help users analyze the sentiment and topics of Google Map restaurant reviews.
 
 ---
 
 ## 🔧 Features
 
-This system offers the following analysis modules:
+Page Overview:
 
 - **Home**: Overview and instructions
 - **Review Input**: Upload restaurant review data for processing
@@ -28,12 +28,12 @@ This system offers the following analysis modules:
 
 ### 🧪 Backend
 
-- **Data Collection** (`utils/get_reviews.py`):
+- **Data Collection** (Locally pre-processed):
   - Uses Selenium to scrape restaurant reviews from Google Maps
   - Automatically searches, scrolls, and loads all available reviews
   - Extracts review text and ratings, stores results in a pandas DataFrame
 
-- **Data Processing & Analysis** (`utils/process_reviews.py`):
+- **Data Processing & Analysis** (Locally pre-processed):
   - Uses `jieba` and TextRank for keyword extraction
   - Performs sentiment analysis via `SnowNLP`
   - Classifies sentences based on predefined keywords (e.g. Food, Service, Environment)
@@ -55,8 +55,7 @@ This system offers the following analysis modules:
 │   └── topic_analysis.py
 │
 ├── utils/                     # Functional modules
-│   ├── get_reviews.py         # Scraping logic for Google reviews
-│   └── process_reviews.py     # NLP processing and analysis
+│   └── data_loader.py         # Load pre-saved review data (Pre-fetching, processing, and analyzing data locally)
 │
 ├── userdict.txt               # Custom dictionary for jieba
 ├── stopwords.txt              # Stopword list
@@ -101,4 +100,4 @@ streamlit run app.py
 
 ---
 
-This system aims to help restaurant owners, data analysts, and researchers quickly understand review trends and hidden insights.
+This system helps restaurant owners, data analysts, and diners quickly understand review trends and potential issues.
