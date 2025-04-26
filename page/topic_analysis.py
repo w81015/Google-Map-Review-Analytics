@@ -27,7 +27,7 @@ def plot_review_topics(df):
         color="討論聲量",
         color_continuous_scale="Burg"
     )
-    fig.update_traces(textposition="outside")
+    fig.update_traces(textposition="outside", cliponaxis=False) # 防止文字被軸線裁剪 cliponaxis=False 
     fig.update_layout(
         plot_bgcolor="white",
         font=dict(size=14),
@@ -46,50 +46,28 @@ def plot_review_topics(df):
 
 def display_sentiment_analysis(df):
     """
-    顯示評論的情感分析，並用互動詞頻圖取代文字雲。
+    顯示各主題的評論（原為情感分析），並用互動詞頻圖取代文字雲。
     """
     label_counts = df["label"].value_counts()
-
     for topic in label_counts.index:
         if topic == "其他":
             continue
-        
-        st.markdown(f"#### 📌 **{topic} 的討論**") 
+        st.markdown(f"#### 📌 **{topic} 的討論**")
         with st.expander(" ", expanded=True):
             col1, col2 = st.columns([1, 1.2])
-
             with col1:
-                pos_reviews = df[
-                    (df["label"] == topic)
-                    & (df["rating"].isin([4, 5]))
-                    & (df["sentiment_score"] > 0.6)
-                ]
-                neg_reviews = df[
-                    (df["label"] == topic)
-                    & (df["rating"].isin([1, 2, 3]))
-                    & (df["sentiment_score"] < 0.4)
-                ]
-
+                # 不再區分正面負面，只根據標籤抽取評論
+                topic_reviews = df[df["label"] == topic]
+                
                 st.markdown(
-                    "<span style='color: #28a745; font-size: 18px; font-weight: bold;'>✅ 正面評論</span>",
+                    "<span style='font-size: 18px; font-weight: bold;'>📝 評論摘要</span>",
                     unsafe_allow_html=True
                 )
-                if not pos_reviews.empty:
-                    for s in pos_reviews["sentence"].drop_duplicates().sample(
-                        min(3, len(pos_reviews)), replace=True
-                    ):
-                        st.write(f"- {s}")
-                else:
-                    st.write("目前沒有符合的留言。")
-                st.write("")
-
-                st.markdown(
-                    "<span style='color: #dc3545; font-size: 18px; font-weight: bold;'>❌ 負面評論</span>",
-                    unsafe_allow_html=True
-                )
-                if not neg_reviews.empty:
-                    sample_size = min(3, len(neg_reviews))  
-                    for s in neg_reviews["sentence"].drop_duplicates().sample(
+                
+                if not topic_reviews.empty:
+                    # 隨機抽取最多6則評論（原本是正面3則+負面3則）
+                    sample_size = min(6, len(topic_reviews))
+                    for s in topic_reviews["sentence"].drop_duplicates().sample(
                         sample_size, replace=True
                     ):
                         st.write(f"- {s}")

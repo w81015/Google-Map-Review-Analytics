@@ -1,5 +1,5 @@
 import streamlit as st
-from utils.process_reviews import main_process
+from utils.data_loader import load_store_data
 
 def show_input_page():
     """
@@ -10,33 +10,25 @@ def show_input_page():
 
     # 使用卡片式區塊包裝輸入欄位
     with st.container():
-        st.subheader("1️⃣ 請輸入店家名稱🍽️")
+        st.subheader("1️⃣ 請選擇店家🍽️")
         col1, col2 = st.columns([0.05, 0.95])
         with col2:
-            location = st.text_input(
-                "* 請確保名稱與 Google Map 上的完全一致",
-                placeholder="例如：小木屋鬆餅(台大店)"
+            store_list = ["阜杭豆漿", "小木屋鬆餅(台大店)", "Juicy Bun Burger 就是棒 美式餐廳 政大店"]
+            location = st.radio(
+                "",
+                store_list,
+                index=0,
+                horizontal=True
             )
 
-        st.subheader("2️⃣ 請選擇需要的留言數📝")
-        col1, col2 = st.columns([0.05, 0.95])
-        with col2:
-            number = st.radio(
-                "* 需要的留言數越多，爬取時間會越久",
-                [10, 20, 30, 40, 50],
-                horizontal=True,
-                index=0
-            )
-
-    # 分隔線
     st.markdown("---")
 
-    # 按鈕觸發分析
+    # 按鈕分析
     if st.button("🚀 開始分析", help="按下後若無反應，請刷新頁面後再試一次"):
-        if location and number:
-            with st.spinner("⏳ 抓取評論需 1-3 分鐘（免費版請見諒🙇‍♂️...）\n請耐心等待，並請勿在抓取時切換頁面。"):
-                # 執行分析函數
-                df_reviews, df = main_process(location, number)
+        if location:
+            with st.spinner("⏳"):
+                # 根據使用者選擇讀取資料
+                df_reviews, df = load_store_data(location)
 
                 # 結果處理
                 if df is None or df.empty:
@@ -59,8 +51,6 @@ def show_input_page():
         else:
             if not location:
                 st.warning("⚠️ **請輸入店家名稱！**")
-            if not number:
-                st.warning("⚠️ **請選擇評論數量！**")
     
     # 如果已有資料，顯示提示
     elif 'df_reviews' in st.session_state and st.session_state.df_reviews is not None:
